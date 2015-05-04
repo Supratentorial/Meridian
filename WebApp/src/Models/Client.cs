@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Meridian.Models
 {
@@ -9,6 +8,5 @@ namespace Meridian.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public List<string> MiddleNames { get; set; }
-
     }
 }

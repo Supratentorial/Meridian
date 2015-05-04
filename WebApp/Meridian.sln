@@ -22,6 +22,7 @@ Global
 		{FE80EA33-6D42-4BD7-B43D-CD35AC3A9AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE80EA33-6D42-4BD7-B43D-CD35AC3A9AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE80EA33-6D42-4BD7-B43D-CD35AC3A9AA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE80EA33-6D42-4BD7-B43D-CD35AC3A9AA4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
