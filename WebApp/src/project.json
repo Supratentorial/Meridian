@@ -1,24 +1,23 @@
 {
-    "webroot": "wwwroot",
-    "version": "1.0.0-*",
+  "webroot": "wwwroot",
+  "version": "1.0.0-*",
 
-    "dependencies": {
-        "Microsoft.AspNet.Hosting.Interfaces": "1.0.0-beta4",
-        "Microsoft.AspNet.Mvc": "6.0.0-beta4",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
-        "EntityFramework.Commands": "7.0.0-beta4",
-        "EntityFramework.SqlServer": "7.0.0-beta4"
-    },
+  "dependencies": {
+    "Microsoft.AspNet.Hosting.Interfaces": "1.0.0-beta4",
+    "Microsoft.AspNet.Mvc": "6.0.0-beta4",
+    "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
+  },
 
-    "commands": {
-        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
-    },
+  "commands": {
+    "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+  },
 
-    "frameworks": {
-        "dnxcore50": { }
-    },
+  "frameworks": {
+
+    "dnxcore50": { }
+  },
 
     "exclude": [
         "wwwroot",
