@@ -50,3 +50,4 @@ wwwroot/
 .idea/
 WebApp/src/project.lock.json
 WebApp/src/PublishProfiles/
+WebApp/.vs/Meridian/v14/.suo

@@ -3,19 +3,19 @@
 /// <reference path="../typings/angularjs/angular.d.ts" />
 var app;
 (function (app_1) {
-    app_1.app = angular.module('app', ['matters', 'ui.router']);
     var StateConfig = (function () {
-        function StateConfig($stateProvier, $urlRouterProvider) {
-            this.$stateProvier = $stateProvier;
+        function StateConfig($stateProvider, $urlRouterProvider) {
+            this.$stateProvider = $stateProvider;
             this.$urlRouterProvider = $urlRouterProvider;
-            $stateProvier.state('matterState', {
+            this.$stateProvider.state('matterState', {
                 url: '/matters',
-                templateUrl: ''
+                templateUrl: '/html/matters/mattersPartial.html'
             });
         }
+        StateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
         return StateConfig;
     })();
     app_1.StateConfig = StateConfig;
-    StateConfig.$inject = ['$stateProvider'];
-    app_1.app.config([StateConfig]);
+    app_1.app = angular.module('app', ['ui-router']);
+    app_1.app.config(StateConfig);
 })(app || (app = {}));

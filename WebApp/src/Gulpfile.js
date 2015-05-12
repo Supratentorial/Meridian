@@ -22,11 +22,12 @@ var paths = {
     distCSSDir: project.webroot + "/css",
     distCSSFiles: project.webroot + "/css/*.css",
     distJSDir: project.webroot + "/js",
+    distHTMLDir: project.webroot + "/html",
     distJSFiles: project.webroot + "/js/**/*.js",
     distIndexFile: project.webroot + "/index.html",
     srcSCSSFiles: "./Styles/**/*.scss",
-    srcTSFiles: "./Scripts/**/*.ts",
-    srcIndexFile: "./Scripts/index.html",
+    srcTSFiles: "./App/**/*.ts",
+    srcIndexFile: "./App/index.html",
     typings: "./Typings/**/*.d.ts",
     bower: "./bower_components/**/*.min.js"
 };
@@ -61,12 +62,13 @@ gulp.task('transpile-ts', ["clean"], function () {
     return clientResult.js.pipe(gulp.dest(paths.distJSDir));
 });
 
-//Copies Bower JS main files to dist.
+//Copies vendor javascript files as well as Angular templates to dist directory.
 gulp.task('copy-vendor-libs', ["clean"], function () {
     gulp.src(wiredep().js) //Bower main JS source files
     .pipe(gulp.dest(paths.distVendorDir));
     //return gulp.src(wiredep().css) //Bower main CSS source files
     //    .pipe(gulp.dest(paths.distCSSDir));
+    return gulp.src(['App/**/*.html', '!App/index.html']).pipe(gulp.dest(paths.distHTMLDir));
 });
 
 //Injects JS and CSS reference tags in index.html from Bower and app src files.
