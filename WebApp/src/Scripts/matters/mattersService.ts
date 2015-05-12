@@ -1,35 +1,28 @@
 ﻿/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="mattermodels.ts" />
 
-module app.matters.service {
-    'use strict'
+module matters {
+    'use strict'   
 
-    export interface IMattersService {
-        getMatters(): ng.IPromise<Matter[]>;
-        addMatter(matter: Matter): ng.IPromise<Matter>;
-    }
-
-    export class Matter {
-        id: number;
-        clientName: string;
-        
-    }
-
-    export class MatterService implements IMattersService {
+    export class MatterService implements interfaces.IMattersService {
         static $inject = ['$http'];
 
         constructor(private $http: ng.IHttpService) { }
 
-        getMatters(): ng.IPromise<Matter[]> {
-            return this.$http.get('/api/matters').then((response: ng.IHttpPromiseCallbackArg<Matter[]>): Matter[]=> {
-                return <Matter[]>response.data
-            });
+        getAllMatters(): models.Matter[]{
+            var matter = new models.Matter();
+            matter.id = 1;
+            matter.clientName = "Mumford";
+            var matterList: Array<models.Matter> = [matter];
+            return matterList;
         }
 
-        addMatter(matter: Matter): ng.IPromise<Matter> {
-
-            return this.$http.post('api/matters', matter).then((response: ng.IHttpPromiseCallbackArg<Matter>): any => {
-                return <Matter>response.data;
+        addMatter(matter: models.Matter): ng.IPromise<models.Matter> {
+            return this.$http.post('api/matters', matter).then((response: ng.IHttpPromiseCallbackArg<models.Matter>): any => {
+                return <models.Matter>response.data;
             });
         }
     }
+
+    angular.module('matters').service('MattersService', MatterService);
 }

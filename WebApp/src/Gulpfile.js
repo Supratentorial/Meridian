@@ -12,6 +12,7 @@ var wiredep = require('wiredep');
 var inject = require('gulp-inject');
 var flatten = require('gulp-flatten');
 var clean = require('gulp-clean');
+var series = require('stream-series');
 
 eval("var project = " + fs.readFileSync("./project.json"));
 
@@ -21,32 +22,28 @@ var paths = {
     distCSSDir: project.webroot + "/css",
     distCSSFiles: project.webroot + "/css/*.css",
     distJSDir: project.webroot + "/js",
-    distJSFiles: project.webroot + "/js/*.js",
+    distJSFiles: project.webroot + "/js/**/*.js",
     distIndexFile: project.webroot + "/index.html",
     srcSCSSFiles: "./Styles/**/*.scss",
     srcTSFiles: "./Scripts/**/*.ts",
     srcIndexFile: "./Scripts/index.html",
-    typings: "./Typings",
+    typings: "./Typings/**/*.d.ts",
     bower: "./bower_components/**/*.min.js"
 };
 
-gulp.task("clean-styles", function () {
-    return gulp.src(paths.distCSSDir, { read: false })
+gulp.task("clean", function () {
+    gulp.src(paths.distCSSDir, { read: false })
+    .pipe(clean());
+    gulp.src(paths.distVendorDir, { read: false })
+    .pipe(clean());
+    gulp.src(paths.distIndexFile, { read: false })
+    .pipe(clean());
+    return gulp.src(paths.distJSDir, { read: false })
     .pipe(clean());
 });
 
-gulp.task("clean-app-scripts"), function () {
-    return gulp.src(paths.distJSDir, { read: false })
-    .pipe(clean());
-}
-
-gulp.task("clean-vendor-scripts"), function () {
-    return gulp.src(paths.distVendorDir, { read: false })
-    .pipe(clean());
-}
-
 //Transpiles app SCSS files into minifed CSS and writes them into dist.
-gulp.task("transpile-scss", ["clean-styles"], function () {
+gulp.task("transpile-scss", ["clean"], function () {
     return gulp.src(paths.srcSCSSFiles)
         .pipe(sass({ style: "expanded" }))
         .pipe(minifycss())
@@ -54,30 +51,28 @@ gulp.task("transpile-scss", ["clean-styles"], function () {
 });
 
 //Transpiles app typescript files to javascript and writes them into dist.
-gulp.task('transpile-ts', ["clean-app-scripts"], function () {
-    var tsResult = gulp.src(paths.srcTSFiles)
-        .pipe(flatten())
+gulp.task('transpile-ts', ["clean"], function () {
+    var clientResult = gulp.src([paths.srcTSFiles, paths.typings])
         .pipe(ts({
-            typescript: require("typescript"),
-            declarationFiles: false
+            target: 'ES6',
+            declarationFiles: false,
+            noExternalResolve: true
         }));
-    return tsResult.js.pipe(gulp.dest(paths.distJSDir));
+    return clientResult.js.pipe(gulp.dest(paths.distJSDir));
 });
 
 //Copies Bower JS main files to dist.
-gulp.task('copy-vendor-scripts', ["clean-vendor-scripts"], function () {
-    return gulp.src(wiredep().js) //Bower main JS source files
-            .pipe(gulp.dest(paths.distVendorDir));
+gulp.task('copy-vendor-libs', ["clean"], function () {
+    gulp.src(wiredep().js) //Bower main JS source files
+    .pipe(gulp.dest(paths.distVendorDir));
+    //return gulp.src(wiredep().css) //Bower main CSS source files
+    //    .pipe(gulp.dest(paths.distCSSDir));
 });
 
-//Copies Bower CSS main files to dist
-gulp.task('copy-vendor-styles', ["clean-styles"], function () {
-    return gulp.src(wiredep().css) //Bower main CSS source files
-        .pipe(gulp.dest(paths.distCSSDir));
-})
-
 //Injects JS and CSS reference tags in index.html from Bower and app src files.
-gulp.task('wiredep', ["copy-vendor-scripts", "copy-vendor-styles", "transpile-scss", "transpile-ts"], function () {
+gulp.task('wiredep', ["copy-vendor-libs", "transpile-scss", "transpile-ts"], function () {
+    var appCSS = gulp.src('css/app.css' , { read: false });
+    var vendorCSS = gulp.src([paths.distCSSFiles, '!css/app.css'], { read: false });
     return gulp.src(paths.srcIndexFile)
        .pipe(wiredep.stream({
            fileTypes: {
@@ -85,10 +80,10 @@ gulp.task('wiredep', ["copy-vendor-scripts", "copy-vendor-styles", "transpile-sc
                    replace: {
                        js: function (filePath) {
                            return '<script src="' + 'lib/' + filePath.split('/').pop() + '"></script>';
-                       },
-                       css: function (filePath) {
-                           return '<link rel="stylesheet" href="' + 'css/' + filePath.split('/').pop() + '"/>';
                        }
+                       //css: function (filePath) {
+                       //    return '<link rel="stylesheet" href="' + 'css/' + filePath.split('/').pop() + '"/>';
+                       //}
                    }
                }
            }
@@ -99,8 +94,8 @@ gulp.task('wiredep', ["copy-vendor-scripts", "copy-vendor-styles", "transpile-sc
            return '<script src="' + filePath.replace('wwwroot/', '') + '"></script>';
        }
    }))
-
-   .pipe(inject(gulp.src([paths.distCSSFiles], { read: false }), {
+   //Injects the CSS in series so app scripts always come after vendor scripts.
+   .pipe(inject(series(appCSS, vendorCSS), {
        addRootSlash: false,
        transform: function (filePath, file, i, length) {
            return '<link rel="stylesheet" href="' + filePath.replace('wwwroot/', '') + '"/>';

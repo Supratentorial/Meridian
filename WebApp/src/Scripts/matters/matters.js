@@ -1,7 +1,5 @@
-var app;
-(function (app) {
-    var matters;
-    (function (matters) {
-        angular.module("matters", []);
-    })(matters = app.matters || (app.matters = {}));
-})(app || (app = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/jquery/jquery.d.ts" />
+(function () {
+    angular.module("matters", []);
+})();

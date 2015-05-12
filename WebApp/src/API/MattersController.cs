@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
 using Meridian.Models;
 
@@ -15,9 +14,11 @@ namespace Meridian.API
         public IEnumerable<Matter> Get()
         {
             List<Matter> matterList = new List<Matter>();
-
             Client client1 = new Client();
             Matter matter1 = new Matter();
+            matter1.Id = 1;
+            
+
             return matterList;
         }
 
@@ -30,8 +31,9 @@ namespace Meridian.API
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post(Matter matter)
         {
+            
         }
 
         // PUT api/values/5

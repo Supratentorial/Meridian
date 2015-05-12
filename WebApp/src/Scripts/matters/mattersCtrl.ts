@@ -1,18 +1,21 @@
-﻿module app.matters.controller {
+﻿/// <reference path="matterinterfaces.ts" />
 
-    import Matter = app.matters.service.Matter;
+module matters {
 
-    interface IMatterScope {
-        getMatters(): ng.IPromise<Matter[]>;
-        
-    }
+    export class MattersCtrl implements interfaces.IMattersScope {
 
-    class MattersCtrl implements IMatterScope {
+        mattersService: interfaces.IMattersService;
+        matters: Array<interfaces.IMatter>;
 
-        constructor() {
-
+        static $inject = ['matters.matterService'];
+        constructor(mattersService: interfaces.IMattersService) {
+            this.mattersService = mattersService;
         }
 
+        getAllMatters() {
+            this.matters = this.mattersService.getAllMatters();
+        }
     }
 
+    angular.module('matters').controller('matters.MattersCtrl', MattersCtrl);
 }

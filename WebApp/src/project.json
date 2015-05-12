@@ -8,6 +8,9 @@
     "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
     "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
     "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
+    "EntityFramework": "7.0.0-beta4",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta4",
+    "EntityFramework.Commands": "7.0.0-beta4"
   },
 
   "commands": {
@@ -19,16 +22,16 @@
     "dnxcore50": { }
   },
 
-    "exclude": [
-        "wwwroot",
-        "node_modules",
-        "bower_components"
-    ],
-    "publishExclude": [
-        "node_modules",
-        "bower_components",
-        "**.xproj",
-        "**.user",
-        "**.vspscc"
-    ]
+  "exclude": [
+    "wwwroot",
+    "node_modules",
+    "bower_components"
+  ],
+  "publishExclude": [
+    "node_modules",
+    "bower_components",
+    "**.xproj",
+    "**.user",
+    "**.vspscc"
+  ]
 }

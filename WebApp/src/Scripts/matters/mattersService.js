@@ -1,35 +1,27 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" />
-var app;
-(function (app) {
-    var matters;
-    (function (matters) {
-        var service;
-        (function (service) {
-            'use strict';
-            var Matter = (function () {
-                function Matter() {
-                }
-                return Matter;
-            })();
-            service.Matter = Matter;
-            var MatterService = (function () {
-                function MatterService($http) {
-                    this.$http = $http;
-                }
-                MatterService.prototype.getMatters = function () {
-                    return this.$http.get('/api/matters').then(function (response) {
-                        return response.data;
-                    });
-                };
-                MatterService.prototype.addMatter = function (matter) {
-                    return this.$http.post('api/matters', matter).then(function (response) {
-                        return response.data;
-                    });
-                };
-                MatterService.$inject = ['$http'];
-                return MatterService;
-            })();
-            service.MatterService = MatterService;
-        })(service = matters.service || (matters.service = {}));
-    })(matters = app.matters || (app.matters = {}));
-})(app || (app = {}));
+/// <reference path="mattermodels.ts" />
+var matters;
+(function (matters) {
+    'use strict';
+    var MatterService = (function () {
+        function MatterService($http) {
+            this.$http = $http;
+        }
+        MatterService.prototype.getAllMatters = function () {
+            var matter = new models.Matter();
+            matter.id = 1;
+            matter.clientName = "Mumford";
+            var matterList = [matter];
+            return matterList;
+        };
+        MatterService.prototype.addMatter = function (matter) {
+            return this.$http.post('api/matters', matter).then(function (response) {
+                return response.data;
+            });
+        };
+        MatterService.$inject = ['$http'];
+        return MatterService;
+    })();
+    matters.MatterService = MatterService;
+    angular.module('matters').service('MattersService', MatterService);
+})(matters || (matters = {}));

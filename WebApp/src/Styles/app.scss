@@ -1,9 +1,40 @@
-﻿body {
+﻿@import "colours";
+$navbar-default-bg: $material-design-grey-800;
+$navbar-border-radius: 0px;
+$navbar-default-brand-color: $white;
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
     background-color: lightgray;
 }
 
-.whiteframe-basic{
-    background-color: white;
-    margin: 20px;
-    padding: 20px;
+.navbar {
+    min-height: 50px;
+}
+
+.navbar-header {
+    padding: 0px;
+
+    .logo {
+        display: inline-block;
+        margin-left: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    a.navbar-brand {
+        color: $white;
+        line-height: 50px;
+        text-decoration: none;
+        font-family: Raleway;
+        font-size: 1.4em;
+        padding: 0px;
+        height: 60px;
+        margin-right: 10px;
+    }
+
+    a.span {
+        height: 50px;
+        line-height: 50px;
+    }
 }

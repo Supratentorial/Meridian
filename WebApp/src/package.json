@@ -15,6 +15,7 @@
     "wiredep": "2.2.2",
     "gulp-inject": "1.2.0",
     "gulp-flatten": "0.0.4",
-    "gulp-clean": "0.3.1"
+    "gulp-clean": "0.3.1",
+    "stream-series": "0.1.1"
   }
 }

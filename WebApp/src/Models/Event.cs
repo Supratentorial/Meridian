@@ -2,7 +2,7 @@
 
 namespace Meridian.Models
 {
-    public class KeyDate
+    public class Event
     {
         public int Id { get; set; }
         public DateTime MyProperty { get; set; }

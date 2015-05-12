@@ -1,11 +1,13 @@
-﻿namespace Meridian.Models
+﻿using System;
+
+namespace Meridian.Models
 {
     //TODO: Inherit from contact when EF7 supports inheritance.
-    public class Staff
+    public class Staff : Contact
     {
         public int Id { get; set; }
         public string Type { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public DateTime StartDate { get; set; }
+        public LegalFirm Firm { get; set; }
     }
 }

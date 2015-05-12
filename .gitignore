@@ -47,3 +47,6 @@ node_modules/
 bower_components/
 artifacts/
 wwwroot/
+.idea/
+WebApp/src/project.lock.json
+WebApp/src/PublishProfiles/
